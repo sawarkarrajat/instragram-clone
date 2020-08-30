@@ -1,5 +1,32 @@
 *{
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
+}
+
+.App{
+  background-color: #fafafa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header{
+  object-fit: contain;
+  display: flex;
+  height: 70px;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+}
+
+.app__signup{
+  display: flex;
+  flex-direction: column;
+}
+.imageUpload__container{
+
 }
