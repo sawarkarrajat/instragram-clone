@@ -4,9 +4,9 @@ import "./App.css";
 import Post from "./components/Post";
 import { makeStyles } from "@material-ui/core/styles";
 import { db, auth } from "./firebase";
-import { Button, Input,Modal } from "@material-ui/core";
+import { Button, Input, Modal } from "@material-ui/core";
 import ImageUpload from "./components/ImageUpload";
-
+import InstagramEmbed from "react-instagram-embed";
 function getModalStyle() {
 	const top = 50;
 	const left = 50;
@@ -37,8 +37,8 @@ function App() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
-  const [user, setUser] = useState(null);
-  const [openSignIn, setOpenSignIn] = useState(false);
+	const [user, setUser] = useState(null);
+	const [openSignIn, setOpenSignIn] = useState(false);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -54,14 +54,16 @@ function App() {
 		};
 	}, [user, username]);
 	useEffect(() => {
-		db.collection("posts").onSnapshot((snapshot) => {
-			setPosts(
-				snapshot.docs.map((doc) => ({
-					id: doc.id,
-					post: doc.data(),
-				}))
-			);
-		});
+		db.collection("posts")
+			.orderBy("timestamp", "desc")
+			.onSnapshot((snapshot) => {
+				setPosts(
+					snapshot.docs.map((doc) => ({
+						id: doc.id,
+						post: doc.data(),
+					}))
+				);
+			});
 	}, [posts]);
 
 	const signUp = (event) => {
@@ -74,24 +76,17 @@ function App() {
 				});
 			})
 			.catch((error) => alert(error.message));
-  };
-  const signIn = (event) => {
-    event.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => {
-        alert(error.message)
-      })
-    setOpenSignIn(false);
-  }
+	};
+	const signIn = (event) => {
+		event.preventDefault();
+		auth.signInWithEmailAndPassword(email, password).catch((error) => {
+			alert(error.message);
+		});
+		setOpenSignIn(false);
+	};
 
 	return (
-    <div className="App">
-      {user?.displayName ?
-      <ImageUpload username={user.displayName}/>
-      :
-      <h3>sorry you need to login!!</h3>
-      }
+		<div className="App">
 			<Modal
 				open={open}
 				onClose={() => setOpen(false)}
@@ -131,10 +126,7 @@ function App() {
 					</form>
 				</div>
 			</Modal>
-			<Modal
-				open={openSignIn}
-				onClose={() => setOpenSignIn(false)}
-			>
+			<Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
 				<div style={modalStyle} className={classes.paper}>
 					<form className="app__signup">
 						<center>
@@ -172,24 +164,46 @@ function App() {
 					>
 						Logout
 					</Button>
-        ) : (
-            <div className="app__loginContainer">
-
-              <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-              <Button onClick={() => setOpen(true)}>Sign Up</Button>
-            </div>
+				) : (
+					<div className="app__loginContainer">
+						<Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+						<Button onClick={() => setOpen(true)}>Sign Up</Button>
+					</div>
 				)}
 			</div>
 			<br />
-
-			{posts.map(({ id, post }) => (
-				<Post
-					key={id}
-					username={post.username}
-					caption={post.caption}
-					imageUrl={post.imageUrl}
+			<div className="app__container">
+				<div className="app__posts">
+					{posts.map(({ id, post }) => (
+						<Post
+							key={id}
+							postId={id}
+							user={user}
+							username={post.username}
+							caption={post.caption}
+							imageUrl={post.imageUrl}
+						/>
+					))}
+				</div>
+				<InstagramEmbed
+					url="https://instagr.am/p/Zw9o4/"
+					maxWidth={320}
+					hideCaption={false}
+					containerTagName="div"
+					className="app__instaembed"
+					protocol=""
+					injectScript
+					onLoading={() => {}}
+					onSuccess={() => {}}
+					onAfterRender={() => {}}
+					onFailure={() => {}}
 				/>
-			))}
+			</div>
+			{user?.displayName ? (
+				<ImageUpload username={user.displayName} />
+			) : (
+				<h3>sorry you need to login!!</h3>
+			)}
 		</div>
 	);
 }

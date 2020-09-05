@@ -1,0 +1,33 @@
+.imageUpload{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto;
+  position: sticky;
+  bottom: 0;
+  background: #f3f3f3;
+  padding: 0 10px;
+}
+
+.imageUpload__progress{
+  width: 100%;
+  margin-bottom: 5px;
+}
+.imageUpload__textarea,.imageUpload__fileInput{
+  margin-bottom: 5px;
+}
+.imageUpload__fileInput::-webkit-file-upload-button {
+  background: #d3d3d3;
+  color: #181818;
+  border: none;
+  border-radius: 8px;
+}
+.imageUpload__UploadBtn.MuiButton-containedSizeSmall{
+  margin-bottom: 8px;
+}
+.imageUpload__UploadBtn{
+  width: 50px;
+  align-self: center;
+  margin-bottom: 5px;
+}

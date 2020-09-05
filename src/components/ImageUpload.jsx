@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { db, storage } from "../firebase";
 import firebase from "firebase";
+import "../css/imageUpload.css";
+
 function ImageUpload(props) {
 	const [image, setImage] = useState(null);
 	const [progress, setProgress] = useState(0);
@@ -30,7 +32,7 @@ function ImageUpload(props) {
 			() => {
         storage.ref("images").child(image.name).getDownloadURL().then(url => {
           db.collection("posts").add({
-            // timestamp: firebase.firestore.FieldValue.serverTimestamp,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             caption: caption,
             imageUrl: url,
             username: props.username,
@@ -43,11 +45,11 @@ function ImageUpload(props) {
 		);
 	};
 	return (
-    <div className="imageUpload__container">
-      <progress value={progress} max="100"/>
-      <input type="text" placeholder="Enter a Caption.." onChange={(e)=>{setCaption(e.target.value)}}/>
-			<input type="file" onChange={(e)=>handleChange(e)} />
-			<Button onClick={handleUpload}>Upload</Button>
+    <div className="imageUpload">
+      <progress className="imageUpload__progress" value={progress} max="100"/>
+      <textarea className="imageUpload__textarea" rows="2" type="text" placeholder="Enter a Caption.." onChange={(e)=>{setCaption(e.target.value)}}/>
+			<input className="imageUpload__fileInput" type="file" onChange={(e)=>handleChange(e)} />
+			<Button className="imageUpload__UploadBtn" variant="contained" size="small" onClick={handleUpload}>Upload</Button>
 		</div>
 	);
 }

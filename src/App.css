@@ -21,12 +21,23 @@
   background-color: #fff;
   padding: 20px;
   border-bottom: 1px solid lightgray;
+  position: sticky;
+  top: 0;
 }
 
 .app__signup{
   display: flex;
   flex-direction: column;
 }
-.imageUpload__container{
 
+.headerImage{
+  object-fit: contain;
+}
+.app__posts{
+  margin-right: 20px;
+}
+.app__container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }

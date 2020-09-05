@@ -1,5 +1,5 @@
 .post{
-  width: 500px;
+  max-width: 500px;
   background-color: #fff;
   border: 1px solid lightgray;
   margin-bottom: 45px;
@@ -15,8 +15,33 @@
 }
 .post__text{
   font-weight: normal;
-  padding: 20px;
+  padding: 20px 10px;
 }
 .post__avatar{
   margin-right: 10px;
+}
+.post__form{
+  display: flex;
+  width: 100%;
+}
+.post__input{
+  flex: 1;
+  border: none;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+}
+.post__button{
+  flex: 0;
+  border: none;
+  color: #6082a3;
+  background-color: transparent;
+  border-top: 1px solid lightgray;
+}
+
+.post__comments{
+  padding: 10px;
+}
+
+.post__comments p{
+  padding-bottom: 10px;
 }
